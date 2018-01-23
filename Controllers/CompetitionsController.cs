@@ -11,6 +11,7 @@ using GlsLeague.ViewModel;
 
 namespace GlsLeague.Controllers
 {
+    [Authorize]
     public class CompetitionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -56,6 +57,8 @@ namespace GlsLeague.Controllers
         {
             if (ModelState.IsValid)
             {
+                viewModel.Competition.IsCompetitionActvie = false;
+                viewModel.Competition.IsRegistrationOpen = false;
                 db.Competitions.Add(viewModel.Competition);
                 db.SaveChanges();
 
@@ -64,7 +67,11 @@ namespace GlsLeague.Controllers
                     var competitionsEvents = new CompetitionEvents();
                     
                     competitionsEvents.CompetitionID = viewModel.Competition.ID;
+                   
                     competitionsEvents.EventID = int.Parse(eventId);
+                    competitionsEvents.RoundNumber = int.Parse(viewModel.EventRoundNumberList[int.Parse(eventId) - 1]);
+
+
                     db.CompetitionEvents.Add(competitionsEvents);
                     db.SaveChanges();
                 }

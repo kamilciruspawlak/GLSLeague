@@ -10,6 +10,7 @@ using GlsLeague.Models;
 
 namespace GlsLeague.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
