@@ -203,6 +203,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompetitionEventDetailsController.cs" />
     <Compile Include="Controllers\CompetitionEventsController.cs" />
     <Compile Include="Controllers\CompetitionsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -234,6 +235,22 @@
     <Compile Include="Migrations\201801241755244_competitioneventdetails added.cs" />
     <Compile Include="Migrations\201801241755244_competitioneventdetails added.Designer.cs">
       <DependentUpon>201801241755244_competitioneventdetails added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251239579_repai competitioneventdetails.cs" />
+    <Compile Include="Migrations\201801251239579_repai competitioneventdetails.Designer.cs">
+      <DependentUpon>201801251239579_repai competitioneventdetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251246193_123123123.cs" />
+    <Compile Include="Migrations\201801251246193_123123123.Designer.cs">
+      <DependentUpon>201801251246193_123123123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251814483_competitionevendetails get id.cs" />
+    <Compile Include="Migrations\201801251814483_competitionevendetails get id.Designer.cs">
+      <DependentUpon>201801251814483_competitionevendetails get id.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251838007_repair.cs" />
+    <Compile Include="Migrations\201801251838007_repair.Designer.cs">
+      <DependentUpon>201801251838007_repair.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -333,6 +350,11 @@
     <Content Include="Views\CompetitionEvents\Details.cshtml" />
     <Content Include="Views\CompetitionEvents\Edit.cshtml" />
     <Content Include="Views\CompetitionEvents\Index.cshtml" />
+    <Content Include="Views\CompetitionEventDetails\Create.cshtml" />
+    <Content Include="Views\CompetitionEventDetails\Delete.cshtml" />
+    <Content Include="Views\CompetitionEventDetails\Details.cshtml" />
+    <Content Include="Views\CompetitionEventDetails\Edit.cshtml" />
+    <Content Include="Views\CompetitionEventDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,6 +390,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801241755244_competitioneventdetails added.resx">
       <DependentUpon>201801241755244_competitioneventdetails added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251239579_repai competitioneventdetails.resx">
+      <DependentUpon>201801251239579_repai competitioneventdetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251246193_123123123.resx">
+      <DependentUpon>201801251246193_123123123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251814483_competitionevendetails get id.resx">
+      <DependentUpon>201801251814483_competitionevendetails get id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251838007_repair.resx">
+      <DependentUpon>201801251838007_repair.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

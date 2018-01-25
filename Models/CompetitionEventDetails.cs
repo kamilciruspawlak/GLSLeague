@@ -10,12 +10,10 @@ namespace GlsLeague.Models
     public class CompetitionEventDetails
     {
         [Key]
-        [Column(Order = 0)]
-        [ForeignKey("Competition")]
+        public int ID { get; set; }
+        
         public int CompetitionID { get; set; }
-        [Key]
-        [Column(Order = 1)]
-        [ForeignKey("Event")]
+        
         public int EventID { get; set; }
 
 
@@ -26,5 +24,8 @@ namespace GlsLeague.Models
 
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+
+        public virtual Competition Competition { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

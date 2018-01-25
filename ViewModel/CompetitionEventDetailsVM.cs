@@ -15,5 +15,7 @@ namespace GlsLeague.ViewModel
 
         public List<Event> EventsList { get; set; }
         public Event Event { get; set; }
+
+        public Competition Competition { get; set; }
     }
 }

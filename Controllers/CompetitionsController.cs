@@ -166,6 +166,11 @@ namespace GlsLeague.Controllers
             var competitionEventDetailsVM = new CompetitionEventDetailsVM();
             competitionEventDetailsVM.CompetitionEventList = new List<CompetitionEvents>();
             competitionEventDetailsVM.CompetitionEventList = _comeptitionEventsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
+
+            competitionEventDetailsVM.Competition = new Competition { ID = (int)id };
+
+            competitionEventDetailsVM.CompetitionEventDetailsList = _competitionEventDetailsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
+
             competitionEventDetailsVM.EventsList = new List<Event>();
             foreach (var item in competitionEventDetailsVM.CompetitionEventList)
             {
@@ -179,7 +184,17 @@ namespace GlsLeague.Controllers
         public ActionResult Schedule(CompetitionEventDetailsVM viewModel)
         {
 
-            return RedirectToAction("Index");
+            var competitionEventDetails = new CompetitionEventDetails();
+            viewModel.CompetitionEventDetails.CompetitionID = viewModel.Competition.ID;
+            _competitionEventDetailsRepository.Create(viewModel.CompetitionEventDetails);
+           
+            return View();
+        }
+        public ActionResult DeleteFromShedule(int id)
+        {
+            CompetitionEventDetails CompetitionEventDetails = _competitionEventDetailsRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            _competitionEventDetailsRepository.Delete(CompetitionEventDetails);
+            return View();
         }
     }
 }

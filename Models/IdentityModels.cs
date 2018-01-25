@@ -34,5 +34,7 @@ namespace GlsLeague.Models
         public DbSet<Competition> Competitions { get; set; }
 
         public DbSet<CompetitionEvents> CompetitionEvents { get; set; }
+
+        public System.Data.Entity.DbSet<GlsLeague.Models.CompetitionEventDetails> CompetitionEventDetails { get; set; }
     }
 }
