@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GlsLeague.Models.Competition>
+﻿@model GlsLeague.ViewModel.CompetitionVM
 
 @{
     ViewBag.Title = "Index";
@@ -12,27 +12,27 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Competition.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Competition.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Competition.StartDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.Competition.EndDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsCompetitionActvie)
+            @Html.DisplayNameFor(model => model.Competition.IsCompetitionActvie)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsRegistrationOpen)
+            @Html.DisplayNameFor(model => model.Competition.IsRegistrationOpen)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.CompetitionList) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -52,11 +52,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.IsRegistrationOpen)
         </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CompetitionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CompetitionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CompetitionID })
-        </td>*@
+        <td>
+            @Html.ActionLink("Edytuj zawody", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Harmonogram", "Schedule", new { id=item.ID }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.ID })
+        </td>
     </tr>
 }
 

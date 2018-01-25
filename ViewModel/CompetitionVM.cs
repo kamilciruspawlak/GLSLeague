@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace GlsLeague.ViewModel
 {
-    public class CompetitionEventsVM
+    public class CompetitionVM
     {
         public Competition Competition { get; set; }
 
@@ -17,7 +17,7 @@ namespace GlsLeague.ViewModel
         public List<string> EventRoundNumberList { get; set; }
 
         public CompetitionEvents CompetitionEvents { get; set; }
-        
+        public List<Competition> CompetitionList { get; set; }
        
     }
 }

@@ -8,18 +8,33 @@ using System.Web;
 using System.Web.Mvc;
 using GlsLeague.Models;
 using GlsLeague.ViewModel;
+using GlsLeague.Repository.Interfaces;
 
 namespace GlsLeague.Controllers
 {
     [Authorize]
     public class CompetitionsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ICompetitionsRepository _competitionsRepository;
+        private IEventsRepository _eventsRepository;
+        private IComeptitionEventsRepository _comeptitionEventsRepository;
+        private ICompetitionEventDetailsRepository _competitionEventDetailsRepository;
 
+        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, IComeptitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository)
+        {
+            _competitionEventDetailsRepository = competitionEventDetailsRepository;
+            _competitionsRepository = competitionsRepository;
+            _eventsRepository = eventsRepository;
+            _comeptitionEventsRepository = comeptitionEventsRepository;
+        }
         // GET: Competitions
         public ActionResult Index()
         {
-            return View(db.Competitions.ToList());
+            var competitionVM = new CompetitionVM();
+            competitionVM.CompetitionList = new List<Competition>();
+            competitionVM.CompetitionList = _competitionsRepository.GetWhere(x => x.ID > 0);
+
+            return View(competitionVM);
         }
 
         // GET: Competitions/Details/5
@@ -29,23 +44,25 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Competition competition = db.Competitions.Find(id);
-            if (competition == null)
+            var competitionVM = new CompetitionVM();
+            competitionVM.Competition = _competitionsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+
+            if (competitionVM == null)
             {
                 return HttpNotFound();
             }
-            return View(competition);
+            return View(competitionVM);
         }
 
         // GET: Competitions/Create
-        public ActionResult Create(CompetitionEventsVM viewModel)
+        public ActionResult Create()
         {
-           
-            
-            viewModel.EventsList = db.Events.ToList();
+
+            var competitionVM = new CompetitionVM();
+            competitionVM.EventsList = _eventsRepository.GetWhere(x => x.ID > 0);
             
 
-            return View(viewModel);
+            return View(competitionVM);
         }
 
         // POST: Competitions/Create
@@ -53,29 +70,32 @@ namespace GlsLeague.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CompetitionEventsVM viewModel, int[] test )
+        public ActionResult Create(CompetitionVM viewModel, int[] test )
         {
             if (ModelState.IsValid)
             {
                 viewModel.Competition.IsCompetitionActvie = false;
                 viewModel.Competition.IsRegistrationOpen = false;
-                db.Competitions.Add(viewModel.Competition);
-                db.SaveChanges();
+                _competitionsRepository.Create(viewModel.Competition);
+                
+                viewModel.EventRoundNumberList.RemoveAll(x => string.IsNullOrEmpty(x));
 
-                foreach (var eventId in viewModel.SelectedEventsList)
+
+                for (int i = 0; i < viewModel.SelectedEventsList.Count; i++)
+               
                 {
-                    var competitionsEvents = new CompetitionEvents();
+                    var competitionsEventsVM = new CompetitionEvents();
                     
-                    competitionsEvents.CompetitionID = viewModel.Competition.ID;
-                   
-                    competitionsEvents.EventID = int.Parse(eventId);
-                    competitionsEvents.RoundNumber = int.Parse(viewModel.EventRoundNumberList[int.Parse(eventId) - 1]);
+                    competitionsEventsVM.CompetitionID = viewModel.Competition.ID;
 
+                    competitionsEventsVM.EventID = int.Parse(viewModel.SelectedEventsList[i]);
+                  
+                    competitionsEventsVM.RoundNumber = int.Parse(viewModel.EventRoundNumberList[i]);
 
-                    db.CompetitionEvents.Add(competitionsEvents);
-                    db.SaveChanges();
+                    _comeptitionEventsRepository.Create(competitionsEventsVM);
+                    
                 }
-                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
@@ -89,12 +109,13 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Competition competition = db.Competitions.Find(id);
-            if (competition == null)
+            var competitionVM = new CompetitionVM();
+            competitionVM.Competition = _competitionsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+            if (competitionVM == null)
             {
                 return HttpNotFound();
             }
-            return View(competition);
+            return View(competitionVM);
         }
 
         // POST: Competitions/Edit/5
@@ -102,15 +123,14 @@ namespace GlsLeague.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompetitionID,Name,Description,StartDate,EndDate,IsCompetitionActvie,IsRegistrationOpen")] Competition competition)
+        public ActionResult Edit(CompetitionVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(competition).State = EntityState.Modified;
-                db.SaveChanges();
+                _competitionsRepository.Update(viewModel.Competition);
                 return RedirectToAction("Index");
             }
-            return View(competition);
+            return View(viewModel);
         }
 
         // GET: Competitions/Delete/5
@@ -120,12 +140,13 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Competition competition = db.Competitions.Find(id);
-            if (competition == null)
+            var competitionVM = new CompetitionVM();
+            competitionVM.Competition = _competitionsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+            if (competitionVM == null)
             {
                 return HttpNotFound();
             }
-            return View(competition);
+            return View(competitionVM);
         }
 
         // POST: Competitions/Delete/5
@@ -133,12 +154,32 @@ namespace GlsLeague.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Competition competition = db.Competitions.Find(id);
-            db.Competitions.Remove(competition);
-            db.SaveChanges();
+            Competition competition = _competitionsRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            _competitionsRepository.Delete(competition);
             return RedirectToAction("Index");
         }
 
-        
+
+
+        public ActionResult Schedule(int? id)
+        {
+            var competitionEventDetailsVM = new CompetitionEventDetailsVM();
+            competitionEventDetailsVM.CompetitionEventList = new List<CompetitionEvents>();
+            competitionEventDetailsVM.CompetitionEventList = _comeptitionEventsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
+            competitionEventDetailsVM.EventsList = new List<Event>();
+            foreach (var item in competitionEventDetailsVM.CompetitionEventList)
+            {
+                competitionEventDetailsVM.EventsList.Add(_eventsRepository.GetWhere(x=>x.ID == item.EventID).FirstOrDefault());
+            }
+
+           return View(competitionEventDetailsVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Schedule(CompetitionEventDetailsVM viewModel)
+        {
+
+            return RedirectToAction("Index");
+        }
     }
 }

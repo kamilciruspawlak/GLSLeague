@@ -7,18 +7,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GlsLeague.Models;
+using GlsLeague.Repository.Interfaces;
+using GlsLeague.ViewModel;
 
 namespace GlsLeague.Controllers
 {
     [Authorize]
     public class EventsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IEventsRepository _eventsRepository;
+        public EventsController(IEventsRepository eventsRepository)
+        {
+            _eventsRepository = eventsRepository;
+        }
 
         // GET: Events
         public ActionResult Index()
         {
-            return View(db.Events.ToList());
+            var eventVM = new EventVM();
+            eventVM.EventsList = _eventsRepository.GetWhere(x => x.ID > 0);
+
+            return View(eventVM);
         }
 
         // GET: Events/Details/5
@@ -28,12 +37,14 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            var eventVM = new EventVM();
+            eventVM.Event = _eventsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+
+            if (eventVM == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(eventVM);
         }
 
         // GET: Events/Create
@@ -47,16 +58,16 @@ namespace GlsLeague.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name")] Event @event)
+        public ActionResult Create(EventVM eventEntity)
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
-                db.SaveChanges();
+                var eventVM = new EventVM();
+                _eventsRepository.Create(eventEntity.Event);
                 return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(eventEntity);
         }
 
         // GET: Events/Edit/5
@@ -66,12 +77,13 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            var eventVM = new EventVM();
+            eventVM.Event = _eventsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+            if (eventVM == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(eventVM);
         }
 
         // POST: Events/Edit/5
@@ -79,15 +91,14 @@ namespace GlsLeague.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name")] Event @event)
+        public ActionResult Edit(EventVM eventEntity)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                _eventsRepository.Update(eventEntity.Event);
                 return RedirectToAction("Index");
             }
-            return View(@event);
+            return View(eventEntity);
         }
 
         // GET: Events/Delete/5
@@ -97,12 +108,13 @@ namespace GlsLeague.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            var eventVM = new EventVM();
+            eventVM.Event = _eventsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
+            if (eventVM == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(eventVM);
         }
 
         // POST: Events/Delete/5
@@ -110,19 +122,10 @@ namespace GlsLeague.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = db.Events.Find(id);
-            db.Events.Remove(@event);
-            db.SaveChanges();
+            Event eventEntity = _eventsRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            _eventsRepository.Delete(eventEntity);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
+   }
 }

@@ -1,0 +1,83 @@
+﻿@model GlsLeague.ViewModel.CompetitionEventDetailsVM
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    <div>
+    
+        <table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EventID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.CutOffDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.TimeLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.HowManyProced)
+        </th>
+        <th></th>
+    </tr>
+
+    
+       @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <tr>
+        <td>
+       @Html.DropDownListFor(Model => Model.CompetitionEventDetails.StartTime,
+            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Od")
+        </td>
+        <td>
+       @Html.DropDownListFor(Model => Model.CompetitionEventDetails.EndTime,
+            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Do")
+       </td>
+        <td>
+       @Html.DropDownList("EventList", new SelectList(Model.EventsList, "Id", "Name"), "Wybierz konkurencje", new { @class = "form-control" })
+        </td>
+    
+        <td>
+                @Html.EditorFor(model => model.CompetitionEventDetails.CutOffDetails, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CompetitionEventDetails.CutOffDetails, "", new { @class = "text-danger" })
+        </td>
+        <td>
+                @Html.EditorFor(model => model.CompetitionEventDetails.TimeLimit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CompetitionEventDetails.TimeLimit, "", new { @class = "text-danger" })
+        </td>
+        <td>
+       @Html.EditorFor(model => model.CompetitionEventDetails.HowManyProced, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CompetitionEventDetails.HowManyProced, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+</table>
+    @foreach (var item in Model.EventsList)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+       
+    </tr>
+    }
+</div>
+
+}
+<p>
+    @*@Html.ActionLink("Edytuj zawody", "Edit", new { id = Model.Competition.ID }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

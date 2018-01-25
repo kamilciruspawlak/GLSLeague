@@ -1,4 +1,4 @@
-﻿@model GlsLeague.Models.Event
+﻿@model GlsLeague.ViewModel.EventVM
 
 @{
     ViewBag.Title = "Delete";
@@ -12,11 +12,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Event.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Event.Name)
         </dd>
 
     </dl>

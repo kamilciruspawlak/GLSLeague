@@ -56,6 +56,15 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.2.0.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -108,6 +117,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -187,6 +199,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -214,17 +227,38 @@
     <Compile Include="Migrations\201801231811022_rejestracja zmiany.Designer.cs">
       <DependentUpon>201801231811022_rejestracja zmiany.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801241035015_add competitor.cs" />
+    <Compile Include="Migrations\201801241035015_add competitor.Designer.cs">
+      <DependentUpon>201801241035015_add competitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801241755244_competitioneventdetails added.cs" />
+    <Compile Include="Migrations\201801241755244_competitioneventdetails added.Designer.cs">
+      <DependentUpon>201801241755244_competitioneventdetails added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CompetitionEventDetails.cs" />
     <Compile Include="Models\CompetitionEvents.cs" />
     <Compile Include="Models\Competition.cs" />
+    <Compile Include="Models\Competitor.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AbstractRepository.cs" />
+    <Compile Include="Repository\CompetitionEventDetailsRepository.cs" />
+    <Compile Include="Repository\CompetitionEventsRepository.cs" />
+    <Compile Include="Repository\CompetitionsRepository.cs" />
+    <Compile Include="Repository\EventsRepository.cs" />
+    <Compile Include="Repository\Interfaces\IAbstractRepository.cs" />
+    <Compile Include="Repository\Interfaces\IComeptitionEventsRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICompetitionEventDetailsRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICompetitionsRepository.cs" />
+    <Compile Include="Repository\Interfaces\IEventsRepository.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModel\CompetitionEventsVM.cs" />
-    <Compile Include="ViewModel\CompetitionsList.cs" />
+    <Compile Include="ViewModel\CompetitionEventDetailsVM.cs" />
+    <Compile Include="ViewModel\CompetitionVM.cs" />
+    <Compile Include="ViewModel\EventVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -291,7 +325,7 @@
     <Content Include="Views\Events\Index.cshtml" />
     <Content Include="Views\Competitions\Create.cshtml" />
     <Content Include="Views\Competitions\Delete.cshtml" />
-    <Content Include="Views\Competitions\Details.cshtml" />
+    <Content Include="Views\Competitions\Schedule.cshtml" />
     <Content Include="Views\Competitions\Edit.cshtml" />
     <Content Include="Views\Competitions\Index.cshtml" />
     <Content Include="Views\CompetitionEvents\Create.cshtml" />
@@ -302,7 +336,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Repository\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -329,6 +362,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801231811022_rejestracja zmiany.resx">
       <DependentUpon>201801231811022_rejestracja zmiany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801241035015_add competitor.resx">
+      <DependentUpon>201801241035015_add competitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801241755244_competitioneventdetails added.resx">
+      <DependentUpon>201801241755244_competitioneventdetails added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
