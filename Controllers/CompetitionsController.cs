@@ -187,14 +187,14 @@ namespace GlsLeague.Controllers
             var competitionEventDetails = new CompetitionEventDetails();
             viewModel.CompetitionEventDetails.CompetitionID = viewModel.Competition.ID;
             _competitionEventDetailsRepository.Create(viewModel.CompetitionEventDetails);
-           
-            return View();
+
+            return RedirectToAction("Schedule");
         }
-        public ActionResult DeleteFromShedule(int id)
+        public ActionResult DeleteFromSchedule(int id)
         {
             CompetitionEventDetails CompetitionEventDetails = _competitionEventDetailsRepository.GetWhere(x => x.ID == id).FirstOrDefault();
             _competitionEventDetailsRepository.Delete(CompetitionEventDetails);
-            return View();
+            return RedirectToAction("Schedule", new { id = CompetitionEventDetails.CompetitionID });
         }
     }
 }

@@ -1,96 +1,139 @@
-﻿@model GlsLeague.Models.CompetitionEventDetails
-
+﻿@model GlsLeague.ViewModel.CompetitionEventDetailsVM
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Schedule";
 }
 
-<h2>Create</h2>
+<h2>Details</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+
+   @Html.AntiForgeryToken()
+   @Html.HiddenFor(model => model.Competition.ID)
+    <div>
     
-    <div class="form-horizontal">
-        <h4>CompetitionEventDetails</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompetitionID, "CompetitionID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CompetitionID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CompetitionID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EventID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.Round)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.CutOffDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.TimeLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.HowManyProced)
+        </th>
+       
+    </tr>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EventID, "EventID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Round, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Round, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Round, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CutOffDetails, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CutOffDetails, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CutOffDetails, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimeLimit, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TimeLimit, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TimeLimit, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HowManyProced, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HowManyProced, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HowManyProced, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <tr>
+        <td>
+            @Html.DropDownListFor(Model => Model.CompetitionEventDetails.StartTime,
+            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Od")
+        </td>
+        <td>
+            @Html.DropDownListFor(Model => Model.CompetitionEventDetails.EndTime,
+            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Do")
+       </td>
+        <td>
+            @Html.DropDownListFor(Model =>Model.CompetitionEventDetails.EventID, new SelectList(Model.EventsList, "Id", "Name"),"Wybierzkonkurencej", new { @class="form-control" })
+            @Html.ValidationMessageFor(model => model.CompetitionEventDetails.EventID, "", new { @class = "text-danger" })
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.Round)
+        </th>
+        <td>
+            @Html.EditorFor(model => model.CompetitionEventDetails.CutOffDetails, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CompetitionEventDetails.CutOffDetails, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.CompetitionEventDetails.TimeLimit, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CompetitionEventDetails.TimeLimit, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.CompetitionEventDetails.HowManyProced, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CompetitionEventDetails.HowManyProced, "", new { @class = "text-danger" })
+        </td>
+         <td>
+             <input type="submit" value="Schedule" class="btn btn-default" />
+         </td>
+    </tr>
+</table>
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EventID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.Round)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.CutOffDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.TimeLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.HowManyProced)
+        </th>
+       
+    </tr>
+    @foreach (var item in Model.CompetitionEventDetailsList)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Round)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CutOffDetails)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeLimit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HowManyProced)
+        </td>
+        <td>
+            @Html.ActionLink("Usuń", "DeleteFromShedule", new { id=item.ID })
+        </td>
+    </tr>
+    }
+    </table>
+
+
+<p>
+   @Html.ActionLink("Back to List", "Index")
+</p>
