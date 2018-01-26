@@ -17,10 +17,10 @@ namespace GlsLeague.Controllers
     {
         private ICompetitionsRepository _competitionsRepository;
         private IEventsRepository _eventsRepository;
-        private IComeptitionEventsRepository _comeptitionEventsRepository;
+        private ICompetitionEventsRepository _comeptitionEventsRepository;
         private ICompetitionEventDetailsRepository _competitionEventDetailsRepository;
 
-        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, IComeptitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository)
+        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, ICompetitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository)
         {
             _competitionEventDetailsRepository = competitionEventDetailsRepository;
             _competitionsRepository = competitionsRepository;

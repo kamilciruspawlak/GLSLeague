@@ -1,0 +1,52 @@
+﻿@model GlsLeague.ViewModel.CompetitionVM
+@{
+    ViewBag.Title = "Competition Details";
+}
+<h2>@ViewBag.Title.</h2>
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Competition.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Competition.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Competition.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Competition.EndDate)
+        </th>
+     
+    </tr>
+
+
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Competition.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Competition.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Competition.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Competition.EndDate)
+        </td>
+     
+        
+    </tr>
+    </table>
+
+@if (Model.Competition.IsRegistrationOpen)
+{
+    <h1>@Html.ActionLink("ZAREJESTRUJ SIĘ","Register", new { id=Model.Competition.ID })</h1>
+}
+<h2>Zarejestrowani</h2>
+

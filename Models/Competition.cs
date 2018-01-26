@@ -22,6 +22,7 @@ namespace GlsLeague.Models
 
 
         public virtual ICollection<CompetitionEvents> CompetitionEvents { get; set; }
+        public virtual ICollection<CompetitorEvents> CompetitorEvents { get; set; }
 
     }
 }

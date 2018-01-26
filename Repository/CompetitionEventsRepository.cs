@@ -7,7 +7,7 @@ using System.Web;
 
 namespace GlsLeague.Repository
 {
-    public class CompetitionEventsRepository :AbstractRepository<CompetitionEvents>, IComeptitionEventsRepository
+    public class CompetitionEventsRepository :AbstractRepository<CompetitionEvents>, ICompetitionEventsRepository
     {
     }
 }

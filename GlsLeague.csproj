@@ -252,8 +252,13 @@
     <Compile Include="Migrations\201801251838007_repair.Designer.cs">
       <DependentUpon>201801251838007_repair.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801261116306_added competitor, competitorevents.cs" />
+    <Compile Include="Migrations\201801261116306_added competitor, competitorevents.Designer.cs">
+      <DependentUpon>201801261116306_added competitor, competitorevents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CompetitorEvents.cs" />
     <Compile Include="Models\CompetitionEventDetails.cs" />
     <Compile Include="Models\CompetitionEvents.cs" />
     <Compile Include="Models\Competition.cs" />
@@ -266,15 +271,20 @@
     <Compile Include="Repository\CompetitionEventDetailsRepository.cs" />
     <Compile Include="Repository\CompetitionEventsRepository.cs" />
     <Compile Include="Repository\CompetitionsRepository.cs" />
+    <Compile Include="Repository\CompetitorEventsRepository.cs" />
+    <Compile Include="Repository\CompetitorRepository.cs" />
     <Compile Include="Repository\EventsRepository.cs" />
     <Compile Include="Repository\Interfaces\IAbstractRepository.cs" />
-    <Compile Include="Repository\Interfaces\IComeptitionEventsRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICompetitionEventsRepository.cs" />
     <Compile Include="Repository\Interfaces\ICompetitionEventDetailsRepository.cs" />
     <Compile Include="Repository\Interfaces\ICompetitionsRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICompetitorEventsRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICompetitorRepository.cs" />
     <Compile Include="Repository\Interfaces\IEventsRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\CompetitionEventDetailsVM.cs" />
     <Compile Include="ViewModel\CompetitionVM.cs" />
+    <Compile Include="ViewModel\CompetitorVM.cs" />
     <Compile Include="ViewModel\EventVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -314,7 +324,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\ActiveCompetitions.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -355,6 +365,9 @@
     <Content Include="Views\CompetitionEventDetails\Details.cshtml" />
     <Content Include="Views\CompetitionEventDetails\Edit.cshtml" />
     <Content Include="Views\CompetitionEventDetails\Index.cshtml" />
+    <Content Include="Views\Home\CompetitionDetails.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\RegisterConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -402,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801251838007_repair.resx">
       <DependentUpon>201801251838007_repair.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801261116306_added competitor, competitorevents.resx">
+      <DependentUpon>201801261116306_added competitor, competitorevents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

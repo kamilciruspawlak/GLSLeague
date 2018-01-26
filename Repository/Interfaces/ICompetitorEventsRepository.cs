@@ -6,7 +6,7 @@ using System.Web;
 
 namespace GlsLeague.Repository.Interfaces
 {
-    public interface IComeptitionEventsRepository : IAbstractRepository<CompetitionEvents>
+    public interface ICompetitorEventsRepository : IAbstractRepository<CompetitorEvents>
     {
     }
 }

@@ -1,0 +1,24 @@
+﻿@model GlsLeague.ViewModel.CompetitionVM
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+
+
+
+
+<table>
+@foreach (var item in Model.CompetitionList)
+{
+    <tr>
+    <th>
+        
+          @Html.ActionLink($"Obczaj zawody  {item.Name}", "CompetitionDetails", new { id=item.ID }) |
+
+
+    </th>
+</tr>
+}
+</table>
+
+

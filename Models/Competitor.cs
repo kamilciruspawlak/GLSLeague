@@ -18,6 +18,6 @@ namespace GlsLeague.Models
         public string Email { get; set; }
         public bool IsConfirmed { get; set; }
 
-        public List<Event> Events { get; set; }
+        public ICollection<CompetitorEvents> CompetitorEvents { get; set; }
     }
 }

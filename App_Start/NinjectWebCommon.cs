@@ -65,8 +65,10 @@ namespace GlsLeague.App_Start
         {
             kernel.Bind<ICompetitionsRepository>().To<CompetitionsRepository>();
             kernel.Bind<IEventsRepository>().To<EventsRepository>();
-            kernel.Bind<IComeptitionEventsRepository>().To<CompetitionEventsRepository>();
+            kernel.Bind<ICompetitionEventsRepository>().To<CompetitionEventsRepository>();
             kernel.Bind<ICompetitionEventDetailsRepository>().To<CompetitionEventDetailsRepository>();
+            kernel.Bind<ICompetitorRepository>().To<CompetitorRepository>();
+            kernel.Bind<ICompetitorEventsRepository>().To<CompetitorEventsRepository>();
         }        
     }
 }
