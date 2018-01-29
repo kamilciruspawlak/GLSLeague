@@ -89,10 +89,10 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 <script type="text/javascript">
-    function ShowHideDiv(chkPassport) {
+    function ShowHideDiv(chkEvent) {
 
-        var dvPassport = document.getElementById(chkPassport.value);
-        dvPassport.style.display = chkPassport.checked ? "block" : "none";
+        var dvEvent = document.getElementById(chkEvent.value);
+        dvEvent.style.display = chkEvent.checked ? "block" : "none";
     }
 </script>
 @section Scripts {

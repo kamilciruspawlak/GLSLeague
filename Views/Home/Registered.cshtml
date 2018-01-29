@@ -1,0 +1,33 @@
+﻿@model GlsLeague.ViewModel.CompetitorVM
+@{
+    ViewBag.Title = "Lista zarejstrowanych";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Imie
+        </th>
+        @foreach(var item in Model.EventsList)
+        {
+            <th id="@item.ID">@item.Name</th>
+        }
+    </tr>
+    @foreach (var item in Model.CompetitorsList)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            @foreach(var cos in item.CompetitorEvents)
+            {
+                <td>@cos.EventID</td>
+            }
+        </tr>
+    }
+
+</table>
+
+
+
