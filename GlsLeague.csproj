@@ -202,6 +202,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BusinessLogic\CompetitionBusinessLogic.cs" />
+    <Compile Include="BusinessLogic\Interfaces\ICompetitionBusinessLogic.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompetitionEventDetailsController.cs" />
     <Compile Include="Controllers\CompetitionEventsController.cs" />
@@ -372,6 +374,7 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\RegisterConfirm.cshtml" />
     <Content Include="Views\Home\Registered.cshtml" />
+    <Content Include="Views\Competitions\Registered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

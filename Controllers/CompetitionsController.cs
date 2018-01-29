@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GlsLeague.Models;
 using GlsLeague.ViewModel;
 using GlsLeague.Repository.Interfaces;
+using GlsLeague.BusinessLogic.Interfaces;
 
 namespace GlsLeague.Controllers
 {
@@ -19,13 +20,17 @@ namespace GlsLeague.Controllers
         private IEventsRepository _eventsRepository;
         private ICompetitionEventsRepository _comeptitionEventsRepository;
         private ICompetitionEventDetailsRepository _competitionEventDetailsRepository;
+        private ICompetitionBusinessLogic _competitionBusinessLogic;
+        private ICompetitorRepository _competitorRepository;
 
-        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, ICompetitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository)
+        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, ICompetitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository, ICompetitionBusinessLogic competitionBusinessLogic, ICompetitorRepository competitorRepository)
         {
             _competitionEventDetailsRepository = competitionEventDetailsRepository;
             _competitionsRepository = competitionsRepository;
             _eventsRepository = eventsRepository;
             _comeptitionEventsRepository = comeptitionEventsRepository;
+            _competitionBusinessLogic = competitionBusinessLogic;
+            _competitorRepository = competitorRepository;
         }
         // GET: Competitions
         public ActionResult Index()
@@ -194,7 +199,31 @@ namespace GlsLeague.Controllers
         {
             CompetitionEventDetails CompetitionEventDetails = _competitionEventDetailsRepository.GetWhere(x => x.ID == id).FirstOrDefault();
             _competitionEventDetailsRepository.Delete(CompetitionEventDetails);
+
             return RedirectToAction("Schedule", new { id = CompetitionEventDetails.CompetitionID });
+        }
+
+        public ActionResult Registered(int id)
+        {
+            var competitionVM = new CompetitorVM();
+            competitionVM = _competitionBusinessLogic.GetAllInformationAboutCompetiion(id);
+
+            return View(competitionVM);
+        }
+        public ActionResult ConfirmCompetitor(int id, int competitionId)
+        {
+            Competitor competitor = _competitorRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            competitor.IsConfirmed = true;
+            _competitorRepository.Update(competitor);
+
+            return RedirectToAction("Registered", new { id = competitionId });
+        }
+        public ActionResult DeleteCompetitor(int id, int competitionId)
+        {
+            Competitor competitor = _competitorRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            _competitorRepository.Delete(competitor);
+
+            return RedirectToAction("Registered", new { id = competitionId });
         }
     }
 }

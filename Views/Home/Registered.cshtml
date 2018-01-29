@@ -15,16 +15,20 @@
         {
             <th id="@item.ID">@item.Name</th>
         }
+        
     </tr>
     @foreach (var item in Model.CompetitorsList)
     {
         <tr>
             <td>@item.FirstName</td>
-            @foreach(var cos in item.CompetitorEvents)
+            @foreach (var cos in item.CompetitorEvents)
             {
                 <td>@cos.EventID</td>
             }
+
+           
         </tr>
+        
     }
 
 </table>

@@ -12,6 +12,8 @@ namespace GlsLeague.App_Start
     using Ninject.Web.Common;
     using GlsLeague.Repository.Interfaces;
     using GlsLeague.Repository;
+    using GlsLeague.BusinessLogic;
+    using GlsLeague.BusinessLogic.Interfaces;
 
     public static class NinjectWebCommon 
     {
@@ -69,6 +71,8 @@ namespace GlsLeague.App_Start
             kernel.Bind<ICompetitionEventDetailsRepository>().To<CompetitionEventDetailsRepository>();
             kernel.Bind<ICompetitorRepository>().To<CompetitorRepository>();
             kernel.Bind<ICompetitorEventsRepository>().To<CompetitorEventsRepository>();
+
+            kernel.Bind<ICompetitionBusinessLogic>().To<CompetitionBusinessLogic>();
         }        
     }
 }

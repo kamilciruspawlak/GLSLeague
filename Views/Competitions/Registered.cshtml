@@ -1,0 +1,41 @@
+﻿@model GlsLeague.ViewModel.CompetitorVM
+@{
+    ViewBag.Title = "Lista do Potwierdzenia";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Imie
+        </th>
+        @foreach(var item in Model.EventsList)
+        {
+            <th id="@item.ID">@item.Name</th>
+        }
+        <td>
+            @Html.DisplayNameFor(model=>model.Competitor.IsConfirmed)
+        </td>
+    </tr>
+    @foreach (var item in Model.CompetitorsList)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            @foreach(var cos in item.CompetitorEvents)
+            {
+                <td>@cos.EventID</td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.IsConfirmed)
+            </td>
+            <td>
+            @Html.ActionLink("Potwierdź", "ConfirmCompetitor", new { id=item.ID,competitionId = Model.Competition.ID }) |
+            @Html.ActionLink("Usuń", "DeleteCompetitor", new { id=item.ID,competitionId = Model.Competition.ID }) |
+            </td>
+        </tr>
+    }
+
+</table>
+
