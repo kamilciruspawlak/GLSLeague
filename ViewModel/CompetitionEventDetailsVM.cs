@@ -17,5 +17,6 @@ namespace GlsLeague.ViewModel
         public Event Event { get; set; }
 
         public Competition Competition { get; set; }
+        public string Round { get; set; }
     }
 }

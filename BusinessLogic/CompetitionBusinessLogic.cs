@@ -69,17 +69,17 @@ namespace GlsLeague.BusinessLogic
                 }
             }
 
-            int liczba = competitorVM.CompetitionEventsList.Count;
+            int numberOfEventsOnCompetition = competitorVM.CompetitionEventsList.Count;
             foreach (var item in competitorVM.CompetitorsList)
             {
                 item.CompetitorEvents = item.CompetitorEvents.ToList();
                 var tempCompetitorEventsList = new List<CompetitorEvents>();
                 var competitorlist = new List<CompetitorEvents>();
                 int j = 0;
-                for (int i = 0; i < liczba; i++)
+                for (int i = 0; i < numberOfEventsOnCompetition; i++)
                 {
                     competitorlist = item.CompetitorEvents.ToList();
-                    for (int y = 0; y < liczba - competitorlist.Count; y++)
+                    for (int y = 0; y < numberOfEventsOnCompetition - competitorlist.Count; y++)
                     {
                         competitorlist.Add(new CompetitorEvents());
                     }

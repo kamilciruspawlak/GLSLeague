@@ -1,0 +1,59 @@
+﻿@model GlsLeague.ViewModel.CompetitionEventDetailsVM
+@{
+    ViewBag.Title = "Harmonogram";
+}
+
+<h2>Schedule</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.EventID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.Round)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.CutOffDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.TimeLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompetitionEventDetails.HowManyProced)
+        </th>
+       
+    </tr>
+    @foreach (var item in Model.CompetitionEventDetailsList)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Round)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CutOffDetails)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeLimit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HowManyProced)
+        </td>
+        
+    </tr>
+    }
+    </table>

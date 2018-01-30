@@ -22,8 +22,9 @@ namespace GlsLeague.Controllers
         private ICompetitionEventDetailsRepository _competitionEventDetailsRepository;
         private ICompetitionBusinessLogic _competitionBusinessLogic;
         private ICompetitorRepository _competitorRepository;
+        private ICompetitorEventsRepository _competitorEventsRepository;
 
-        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, ICompetitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository, ICompetitionBusinessLogic competitionBusinessLogic, ICompetitorRepository competitorRepository)
+        public CompetitionsController(ICompetitionsRepository competitionsRepository, IEventsRepository eventsRepository, ICompetitionEventsRepository comeptitionEventsRepository, ICompetitionEventDetailsRepository competitionEventDetailsRepository, ICompetitionBusinessLogic competitionBusinessLogic, ICompetitorRepository competitorRepository, ICompetitorEventsRepository competitorEventsRepository)
         {
             _competitionEventDetailsRepository = competitionEventDetailsRepository;
             _competitionsRepository = competitionsRepository;
@@ -31,6 +32,7 @@ namespace GlsLeague.Controllers
             _comeptitionEventsRepository = comeptitionEventsRepository;
             _competitionBusinessLogic = competitionBusinessLogic;
             _competitorRepository = competitorRepository;
+            _competitorEventsRepository = competitorEventsRepository;
         }
         // GET: Competitions
         public ActionResult Index()
@@ -175,6 +177,7 @@ namespace GlsLeague.Controllers
             competitionEventDetailsVM.Competition = new Competition { ID = (int)id };
 
             competitionEventDetailsVM.CompetitionEventDetailsList = _competitionEventDetailsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
+            competitionEventDetailsVM.CompetitionEventDetailsList.Sort((a,b)=>a.StartTime.CompareTo(b.StartTime));
 
             competitionEventDetailsVM.EventsList = new List<Event>();
             foreach (var item in competitionEventDetailsVM.CompetitionEventList)
@@ -191,6 +194,7 @@ namespace GlsLeague.Controllers
 
             var competitionEventDetails = new CompetitionEventDetails();
             viewModel.CompetitionEventDetails.CompetitionID = viewModel.Competition.ID;
+            viewModel.CompetitionEventDetails.Round = int.Parse(viewModel.Round);
             _competitionEventDetailsRepository.Create(viewModel.CompetitionEventDetails);
 
             return RedirectToAction("Schedule");
@@ -213,7 +217,14 @@ namespace GlsLeague.Controllers
         public ActionResult ConfirmCompetitor(int id, int competitionId)
         {
             Competitor competitor = _competitorRepository.GetWhere(x => x.ID == id).FirstOrDefault();
-            competitor.IsConfirmed = true;
+            if (competitor.IsConfirmed != true)
+            {
+                competitor.IsConfirmed = true;
+            }
+            else
+            {
+                competitor.IsConfirmed = false;
+            }
             _competitorRepository.Update(competitor);
 
             return RedirectToAction("Registered", new { id = competitionId });
@@ -224,6 +235,64 @@ namespace GlsLeague.Controllers
             _competitorRepository.Delete(competitor);
 
             return RedirectToAction("Registered", new { id = competitionId });
+        }
+        public ActionResult EditCompetitor(int id, int competitionId)
+        {
+            var competitorVM = new CompetitorVM();
+            competitorVM.CompetitionEventsList = new List<CompetitionEvents>();
+
+            
+
+            competitorVM.Competitor = _competitorRepository.GetWhere(x => x.ID == id).FirstOrDefault();
+            competitorVM.CompetitionID = competitionId;
+
+            competitorVM.CompetitionEventsList = _comeptitionEventsRepository.GetWhere(x => x.CompetitionID == competitionId).ToList();
+            
+
+            competitorVM.EventsList = new List<Event>();
+            foreach (var item in competitorVM.CompetitionEventsList)
+            {
+                competitorVM.EventsList.Add(_eventsRepository.GetWhere(x => x.ID == item.EventID).FirstOrDefault());
+            }
+
+            if (competitorVM.Competitor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(competitorVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCompetitor(CompetitorVM competitorVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var temporaryCompetitionEventsList = new List<CompetitorEvents>();
+                var temporaryCompetitorEventsList = new List<CompetitorEvents>();
+                temporaryCompetitionEventsList = _competitorEventsRepository.GetWhere(x=>x.CompetitionID == competitorVM.CompetitionID).ToList();
+                temporaryCompetitorEventsList = temporaryCompetitionEventsList.Where(x => x.CompetitiorID == competitorVM.Competitor.ID).ToList();
+                
+                foreach (var item in competitorVM.SelectedEventsList)
+                {
+                    if (temporaryCompetitorEventsList.Find(x => x.EventID == int.Parse(item)) == null)
+                    {
+                        var competitorEvents = new CompetitorEvents();
+                        competitorEvents.CompetitiorID = competitorVM.Competitor.ID;
+                        competitorEvents.EventID = int.Parse(item);
+                        competitorEvents.CompetitionID = competitorVM.CompetitionID;
+                        _competitorEventsRepository.Create(competitorEvents);
+                    }
+                    else
+                    {
+                        var competitorEvents = temporaryCompetitorEventsList.Find(x => x.EventID == int.Parse(item));
+                        _competitorEventsRepository.Delete(competitorEvents);
+                    }
+                    
+                }
+                _competitorRepository.Update(competitorVM.Competitor);
+                return RedirectToAction("Registered", new { id = competitorVM.CompetitionID });
+            }
+            return View(competitorVM);
         }
     }
 }

@@ -33,6 +33,7 @@
             <td>
             @Html.ActionLink("Potwierdź", "ConfirmCompetitor", new { id=item.ID,competitionId = Model.Competition.ID }) |
             @Html.ActionLink("Usuń", "DeleteCompetitor", new { id=item.ID,competitionId = Model.Competition.ID }) |
+            @Html.ActionLink("Edytuj", "EditCompetitor", new { id=item.ID,competitionId = Model.Competition.ID }) |
             </td>
         </tr>
     }

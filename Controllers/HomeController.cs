@@ -20,8 +20,9 @@ namespace GlsLeague.Controllers
         private ICompetitorRepository _competitorRepository;
         private ICompetitorEventsRepository _competitorEventsRepository;
         private ICompetitionBusinessLogic _competitionBusinessLogic;
+        private ICompetitionEventDetailsRepository _competitionEventDetailsRepository;
 
-        public HomeController(ICompetitionsRepository competitionsRepository, ICompetitionEventsRepository competitionEventsRepository, IEventsRepository eventsRepository, ICompetitorRepository competitorRepository, ICompetitorEventsRepository competitorEventsRepository, ICompetitionBusinessLogic competitionBusinessLogic)
+        public HomeController(ICompetitionsRepository competitionsRepository, ICompetitionEventsRepository competitionEventsRepository, IEventsRepository eventsRepository, ICompetitorRepository competitorRepository, ICompetitorEventsRepository competitorEventsRepository, ICompetitionBusinessLogic competitionBusinessLogic,ICompetitionEventDetailsRepository competitionEventDetailsRepository)
         {
             _competitionRepository = competitionsRepository;
             _competitionEventsRepository = competitionEventsRepository;
@@ -29,6 +30,7 @@ namespace GlsLeague.Controllers
             _competitorRepository = competitorRepository;
             _competitorEventsRepository = competitorEventsRepository;
             _competitionBusinessLogic = competitionBusinessLogic;
+            _competitionEventDetailsRepository = competitionEventDetailsRepository;
         }
         public ActionResult Index()
         {
@@ -59,16 +61,16 @@ namespace GlsLeague.Controllers
         }
         public ActionResult Register(int? id)
         {
-            var competitiorVM = new CompetitorVM();
-            competitiorVM.CompetitionID = id.Value;
-            competitiorVM.CompetitionEventsList = _competitionEventsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
+            var competitorVM = new CompetitorVM();
+            competitorVM.CompetitionID = id.Value;
+            competitorVM.CompetitionEventsList = _competitionEventsRepository.GetWhere(x => x.CompetitionID == id.Value).ToList();
 
-            competitiorVM.EventsList = new List<Event>();
-            foreach (var item in competitiorVM.CompetitionEventsList)
+            competitorVM.EventsList = new List<Event>();
+            foreach (var item in competitorVM.CompetitionEventsList)
             {
-                competitiorVM.EventsList.Add(_eventsRepository.GetWhere(x => x.ID == item.EventID).FirstOrDefault());
+                competitorVM.EventsList.Add(_eventsRepository.GetWhere(x => x.ID == item.EventID).FirstOrDefault());
             }
-            return View(competitiorVM);
+            return View(competitorVM);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -102,6 +104,15 @@ namespace GlsLeague.Controllers
             competitionVM = _competitionBusinessLogic.GetAllInformationAboutCompetiion(id.Value);
 
             return View(competitionVM);
+        }
+        public ActionResult Schedule(int id)
+        {
+            var viewModel = new CompetitionEventDetailsVM();
+            viewModel.CompetitionEventDetailsList = _competitionEventDetailsRepository.GetWhere(x => x.CompetitionID == id).ToList();
+            
+            viewModel.CompetitionEventDetailsList.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+
+            return View(viewModel);
         }
     }
 }

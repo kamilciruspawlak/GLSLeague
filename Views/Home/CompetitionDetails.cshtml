@@ -48,5 +48,7 @@
 {
     <h1>@Html.ActionLink("ZAREJESTRUJ SIĘ","Register", new { id=Model.Competition.ID })</h1>
 }
-<h2>@Html.ActionLink("Zarejstrowani","Registered", new { id=Model.Competition.ID })</h2>
+    <h2>@Html.ActionLink("Zarejstrowani","Registered", new { id=Model.Competition.ID })</h2>
+
+    <h3>@Html.ActionLink("Harmonogram","Schedule", new { id = Model.Competition.ID })</h3>
 
