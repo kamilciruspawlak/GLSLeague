@@ -28,10 +28,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Stwórz zawody", "Create", "Competitions")</li>
                     <li>@Html.ActionLink("Przegladaj imprezy", "Index", "Competitions")</li>
-                   
-                    <li>@Html.ActionLink("sprawdz czy działą", "Index", "CompetitionEvents")</li>
                     <li>@Html.ActionLink("Konurencje", "Index", "Events")</li>
-
                 </ul>
             </div>
             }
@@ -39,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Opis Ligi", "Index", "Home")</li>
                     <li>@Html.ActionLink("Nadchodzące imprezy", "ActiveCompetitions", "Home")</li>
-                    <li>@Html.ActionLink("Punktacja ligowa", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Punktacja ligowa", "Index", "Result")</li>
                    
                 </ul>
                @Html.Partial("_LoginPartial")

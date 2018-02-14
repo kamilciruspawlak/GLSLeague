@@ -16,6 +16,7 @@ namespace GlsLeague.Models
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+        public string PathImage { get; set; }
 
         public bool IsCompetitionActvie { get; set; }
         public bool IsRegistrationOpen { get; set; }

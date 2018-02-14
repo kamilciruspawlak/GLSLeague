@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using GlsLeague.Models;
 using GlsLeague.Repository.Interfaces;
@@ -27,23 +22,6 @@ namespace GlsLeague.Controllers
             var eventVM = new EventVM();
             eventVM.EventsList = _eventsRepository.GetWhere(x => x.ID > 0);
 
-            return View(eventVM);
-        }
-
-        // GET: Events/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var eventVM = new EventVM();
-            eventVM.Event = _eventsRepository.GetWhere(x => x.ID == id.Value).FirstOrDefault();
-
-            if (eventVM == null)
-            {
-                return HttpNotFound();
-            }
             return View(eventVM);
         }
 

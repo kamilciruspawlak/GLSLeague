@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    @Html.HiddenFor(x=>x.Competition.PathImage)
     <div class="form-horizontal">
         <h4>Competition</h4>
         <hr />

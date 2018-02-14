@@ -11,6 +11,7 @@ namespace GlsLeague.ViewModel
     {
         public Competition Competition { get; set; }
         public List<Competition> CompetitionList { get; set; }
+        public HttpPostedFileWrapper ImageFile { get; set; }
 
         public CompetitionEvents CompetitionEvents { get; set; }
 
@@ -18,9 +19,10 @@ namespace GlsLeague.ViewModel
         public List<string> SelectedEventsList { get; set; }
 
         public List<string> EventRoundNumberList { get; set; }
-
-        
-        
        
+
+
+
+
     }
 }

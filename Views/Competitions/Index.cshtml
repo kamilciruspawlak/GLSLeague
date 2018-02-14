@@ -6,28 +6,23 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Competition.Name)
+            Nazwa
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Competition.Description)
+            Od:
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Competition.StartDate)
+            Do:
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Competition.EndDate)
+           Czy widoczne?
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Competition.IsCompetitionActvie)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Competition.IsRegistrationOpen)
+            Rejestracja
         </th>
         <th></th>
     </tr>
@@ -36,9 +31,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StartDate)

@@ -52,6 +52,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -206,11 +209,11 @@
     <Compile Include="BusinessLogic\Interfaces\ICompetitionBusinessLogic.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompetitionEventDetailsController.cs" />
-    <Compile Include="Controllers\CompetitionEventsController.cs" />
     <Compile Include="Controllers\CompetitionsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,6 +261,10 @@
     <Compile Include="Migrations\201801261116306_added competitor, competitorevents.Designer.cs">
       <DependentUpon>201801261116306_added competitor, competitorevents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802011238529_pathimage added to competition model.cs" />
+    <Compile Include="Migrations\201802011238529_pathimage added to competition model.Designer.cs">
+      <DependentUpon>201802011238529_pathimage added to competition model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompetitorEvents.cs" />
@@ -284,6 +291,7 @@
     <Compile Include="Repository\Interfaces\ICompetitorRepository.cs" />
     <Compile Include="Repository\Interfaces\IEventsRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Validation\CompetitionValidator.cs" />
     <Compile Include="ViewModel\CompetitionEventDetailsVM.cs" />
     <Compile Include="ViewModel\CompetitionVM.cs" />
     <Compile Include="ViewModel\CompetitorVM.cs" />
@@ -349,7 +357,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Events\Create.cshtml" />
     <Content Include="Views\Events\Delete.cshtml" />
-    <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
     <Content Include="Views\Competitions\Create.cshtml" />
@@ -374,9 +381,11 @@
     <Content Include="Views\Competitions\Registered.cshtml" />
     <Content Include="Views\Competitions\EditCompetitor.cshtml" />
     <Content Include="Views\Home\Schedule.cshtml" />
+    <Content Include="Views\Result\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -424,6 +433,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801261116306_added competitor, competitorevents.resx">
       <DependentUpon>201801261116306_added competitor, competitorevents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802011238529_pathimage added to competition model.resx">
+      <DependentUpon>201802011238529_pathimage added to competition model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

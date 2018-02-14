@@ -43,13 +43,13 @@
     <tr>
         <td>
             @Html.DropDownListFor(Model => Model.CompetitionEventDetails.StartTime,
-            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
-            "Od")
+            Enumerable.Range(7, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Od", new { @class = "form-control"})
         </td>
         <td>
             @Html.DropDownListFor(Model => Model.CompetitionEventDetails.EndTime,
-            Enumerable.Range(00, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
-            "Do")
+            Enumerable.Range(7, 24).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }),
+            "Do", new { @class = "form-control"})
        </td>
         <td>
             @Html.DropDownListFor(Model =>Model.CompetitionEventDetails.EventID, new SelectList(Model.EventsList, "Id", "Name"),"Wybierzkonkurencej", new { @class="form-control"  })

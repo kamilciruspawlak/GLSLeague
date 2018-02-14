@@ -8,17 +8,21 @@
 
 
 <table>
-@foreach (var item in Model.CompetitionList)
-{
-    <tr>
-    <th>
-        
-          @Html.ActionLink($"Obczaj zawody  {item.Name}", "CompetitionDetails", new { id=item.ID }) |
+    @foreach (var item in Model.CompetitionList)
+    {
+        <tr>
+            <th>
 
+                @Html.ActionLink($"Obczaj zawody  {item.Name}", "CompetitionDetails", new { id = item.ID }) |
 
-    </th>
-</tr>
-}
+                @if (item.PathImage != null)
+                {
+                    <a href='@Url.Action("CompetitionDetails", "Home",new { id=item.ID})'>
+                        <img src="@Url.Content(item.PathImage)" width="150" height="150" />
+                    </a>
+                }
+
+            </th>
+        </tr>
+    }
 </table>
-
-
